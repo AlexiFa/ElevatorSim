@@ -18,7 +18,9 @@ public class CallButton extends Button {
   //
   // Constructors
   //
-  public CallButton () { };
+  public CallButton (String dir) {
+    direction = dir;
+  };
   
   //
   // Methods
