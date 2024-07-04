@@ -22,11 +22,21 @@ public class User {
   //
   public User () {
     userId = id++;
+    for (Floor f : Main.floors){
+      if (f.getNumber() == 0){
+        this.m_actualFloor = f;
+      }
+    }
   }
 
   public User (String name) {
     userId = id++;
     this.name = name;
+    for (Floor f : Main.floors){
+      if (f.getNumber() == 0){
+        this.m_actualFloor = f;
+      }
+    }
   };
   
   //

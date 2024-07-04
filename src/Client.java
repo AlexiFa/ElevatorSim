@@ -13,7 +13,9 @@ public class Client extends User {
   //
   // Constructors
   //
-  public Client () { };
+  public Client (String name) {
+    super(name);
+  };
   
   //
   // Methods

@@ -13,7 +13,9 @@ public class MaintenanceGuy extends User {
   //
   // Constructors
   //
-  public MaintenanceGuy () { };
+  public MaintenanceGuy (String name) {
+    super(name);
+  };
   
   //
   // Methods
