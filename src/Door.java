@@ -1,4 +1,4 @@
-
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class Door
@@ -29,9 +29,9 @@ public class Door {
    * Set the value of isOpen
    * @param newVar the new value of isOpen
    */
-  public void setIsOpen (Boolean newVar) {
-    isOpen = newVar;
-  }
+//  public void setIsOpen (Boolean newVar) {
+//    isOpen = newVar;
+//  }
 
   /**
    * Get the value of isOpen
@@ -49,6 +49,13 @@ public class Door {
    */
   public void open()
   {
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // e.printStackTrace();
+      System.out.println("The door had a problem while opening");
+    }
+    isOpen = true;
   }
 
 
@@ -56,7 +63,12 @@ public class Door {
    */
   public void close()
   {
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // e.printStackTrace();
+      System.out.println("The door had a problem while closing");
+    }
+    isOpen = false;
   }
-
-
 }

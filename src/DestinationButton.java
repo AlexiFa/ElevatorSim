@@ -12,11 +12,15 @@ public class DestinationButton extends Button {
   //
 
   private int number;
+  private Elevator elevator;
   
   //
   // Constructors
   //
-  public DestinationButton () { };
+  public DestinationButton (int nb, Elevator e) {
+    number = nb;
+    elevator = e;
+  };
   
   //
   // Methods

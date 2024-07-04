@@ -15,7 +15,7 @@ public class MaintenanceGuy extends User {
   //
   public MaintenanceGuy (String name) {
     super(name);
-  };
+  }
   
   //
   // Methods

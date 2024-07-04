@@ -3,14 +3,16 @@ import java.util.List;
 
 public class Main {
     // CONSTANTS
-    private static final int[] FLOORS = {-2, -1, 0, 1, 2, 3, 4, 5, 6, 7};
+    public static final int[] FLOORS = {-2, -1, 0, 1, 2, 3, 4, 5, 6, 7};
 
     // static variable
-    static List<Floor> floors = new ArrayList<Floor>();
-    static List<User> users = new ArrayList<User>();
+    static List<Floor> floors = new ArrayList<>();
+    static List<User> users = new ArrayList<>();
+    static Elevator elevator;
 
     // Initialize the floors from a list of integers ex: (-2, -1, 0, 1, 2, 3, 4, 5, 6, 7)
     void initFloors(){
+
         for(int i : FLOORS){
             Floor.addFloor(i);
         }
@@ -35,8 +37,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        // init environment (floors, users, elevator)
         Main main = new Main();
         main.initFloors();
         main.initUsers();
+        elevator = new Elevator();
+
+
     }
 }

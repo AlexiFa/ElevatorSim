@@ -12,21 +12,29 @@ public class Elevator {
   //
 
   private int actualFloor;
-  private DestinationButton buttons;  /**
-
+  private List<DestinationButton> buttons = new ArrayList<>();
+  /**
    * 1 up
    * 0 stop
    * -1 down   */
-
   private int isMoving;
   private Door door;
 
-  public Vector floorsVector = new Vector();
+  private final Vector<Floor> floorsVector = new Vector<>();
   
   //
   // Constructors
   //
-  public Elevator () { };
+  public Elevator () {
+    isMoving = 0;
+    actualFloor = 0;
+    door = new Door();
+    floorsVector.addAll(Main.floors);
+    for (Floor f: floorsVector){
+      DestinationButton button = new DestinationButton(f.getNumber(), this);
+      buttons.add(button);
+    }
+  };
   
   //
   // Methods
@@ -57,7 +65,7 @@ public class Elevator {
    * Set the value of buttons
    * @param newVar the new value of buttons
    */
-  public void setButtons (DestinationButton newVar) {
+  public void setButtons (List<DestinationButton> newVar) {
     buttons = newVar;
   }
 
@@ -65,7 +73,7 @@ public class Elevator {
    * Get the value of buttons
    * @return the value of buttons
    */
-  public DestinationButton getButtons () {
+  public List<DestinationButton> getButtons () {
     return buttons;
   }
 

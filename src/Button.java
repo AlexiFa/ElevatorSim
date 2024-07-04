@@ -14,7 +14,7 @@ abstract public class Button {
   //
   // Constructors
   //
-  public Button () { };
+  public Button () { }
   
   //
   // Methods
