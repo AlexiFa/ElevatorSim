@@ -11,7 +11,7 @@ public class Floor {
   // Fields
   //
 
-  static private List<Integer> floors = new ArrayList<Integer>();
+  static private ArrayList<Integer> floors = new ArrayList<Integer>();
 
   private int number;
 
@@ -22,10 +22,13 @@ public class Floor {
   //
   public Floor (int nb) {
     number = nb;
-    if (nb == floors.getFirst()){
-      CallButton up = new CallButton("up");
-      up.setFloor(this);
+    if (nb != floors.getFirst()){
+      CallButton up = new CallButton("down", this);
       addCallButtons(up);
+    }
+    if (nb != floors.getLast()) {
+      CallButton down = new CallButton("up", this);
+      addCallButtons(down);
     }
   };
   

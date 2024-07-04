@@ -9,7 +9,7 @@ abstract public class Button {
   // Fields
   //
 
-  private Boolean isPressed;
+  private Boolean isPressed = false;
   
   //
   // Constructors

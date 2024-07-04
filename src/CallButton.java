@@ -18,8 +18,9 @@ public class CallButton extends Button {
   //
   // Constructors
   //
-  public CallButton (String dir) {
+  public CallButton (String dir, Floor floor) {
     direction = dir;
+    this.m_floor = floor;
   };
   
   //
@@ -35,9 +36,7 @@ public class CallButton extends Button {
    * Set the value of direction
    * @param newVar the new value of direction
    */
-  public void setDirection (String newVar) {
-    direction = newVar;
-  }
+  // public void setDirection (String newVar) {direction = newVar;}
 
   /**
    * Get the value of direction
@@ -51,9 +50,7 @@ public class CallButton extends Button {
    * Set the value of m_floor
    * @param newVar the new value of m_floor
    */
-  public void setFloor (Floor newVar) {
-    m_floor = newVar;
-  }
+  // public void setFloor (Floor newVar) {m_floor = newVar;}
 
   /**
    * Get the value of m_floor
