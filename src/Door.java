@@ -49,12 +49,14 @@ public class Door {
    */
   public void open()
   {
+    System.out.println("The door is opening...");
     try {
       TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
       // e.printStackTrace();
       System.out.println("The door had a problem while opening");
     }
+    System.out.println("The door is open");
     isOpen = true;
   }
 

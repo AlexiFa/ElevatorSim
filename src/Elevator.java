@@ -166,6 +166,9 @@ public class Elevator {
           e.printStackTrace();
       }
     }
+    System.out.println("The elevator stops at floor " + actualFloor);
+    this.door.open();
+    isMoving = 0;
   }
 
 
