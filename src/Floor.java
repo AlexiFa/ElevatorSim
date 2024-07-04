@@ -11,14 +11,23 @@ public class Floor {
   // Fields
   //
 
+  static private List<Integer> floors = new ArrayList<Integer>();
+
   private int number;
 
-  public Vector callbuttonsVector = new Vector();
+  public Vector<CallButton> callbuttonsVector = new Vector<CallButton>(2);
   
   //
   // Constructors
   //
-  public Floor () { };
+  public Floor (int nb) {
+    number = nb;
+    if (nb == floors.getFirst()){
+      CallButton up = new CallButton("up");
+      up.setFloor(this);
+      addCallButtons(up);
+    }
+  };
   
   //
   // Methods
@@ -48,14 +57,14 @@ public class Floor {
   /**
    * Add a CallButtons object to the callbuttonsVector List
    */
-  public void addCallButtons (CallButton new_object) {
+  private void addCallButtons (CallButton new_object) {
     callbuttonsVector.add(new_object);
   }
 
   /**
    * Remove a CallButtons object from callbuttonsVector List
    */
-  public void removeCallButtons (CallButton new_object)
+  private void removeCallButtons (CallButton new_object)
   {
     callbuttonsVector.remove(new_object);
   }
@@ -64,10 +73,17 @@ public class Floor {
    * Get the List of CallButtons objects held by callbuttonsVector
    * @return List of CallButtons objects held by callbuttonsVector
    */
-  public List getCallButtonsList () {
-    return (List) callbuttonsVector;
+  public Vector<CallButton> getCallButtonsList () {
+    return (Vector<CallButton>) callbuttonsVector;
   }
 
+  public static List<Integer> getFloors() {
+    return floors;
+  }
+
+  public static void addFloor(int floor) {
+    floors.add(floor);
+  }
 
   //
   // Other methods
