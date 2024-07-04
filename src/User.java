@@ -1,11 +1,9 @@
-
-import java.util.*;
-
-
 /**
  * Class User
  */
-public class User {
+public class User extends Thread{
+
+  private String color;
 
   //
   // Fields
@@ -14,7 +12,7 @@ public class User {
   static private int id = 0;
   private int userId;
   private String name;
-
+  private int destinationFloor;
   public Floor m_actualFloor;
   
   //
@@ -37,6 +35,14 @@ public class User {
         this.m_actualFloor = f;
       }
     }
+  };
+
+  public User (String name, Floor actualFloor, int destinationFloor, String printColor) {
+    userId = id++;
+    this.name = name;
+    this.destinationFloor = destinationFloor;
+    this.m_actualFloor = actualFloor;
+    this.color = printColor;
   };
   
   //
@@ -68,7 +74,7 @@ public class User {
    * Set the value of name
    * @param newVar the new value of name
    */
-  public void setName (String newVar) {
+  public void setFirstName(String newVar) {
     name = newVar;
   }
 
@@ -76,7 +82,7 @@ public class User {
    * Get the value of name
    * @return the value of name
    */
-  public String getName () {
+  public String getFirstName() {
     return name;
   }
 
@@ -106,7 +112,30 @@ public class User {
    */
   public void goToFloor(int floorNumber)
   {
+    if (this.m_actualFloor.getNumber() == floorNumber){
+      System.out.println(this.color + this.name + " is already on floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
+      return;
+    }else if (this.m_actualFloor.getNumber() < floorNumber) {
+      try{
+        CallButton button = m_actualFloor.getCallButton("up");
+        System.out.println(this.color + this.name + " pressed the " + button.getDirection() + " button at floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
+        button.press();
+      }catch (Exception e){
+        System.out.println(e);
+      }
+    }else if (this.m_actualFloor.getNumber() > floorNumber){
+      try {
+        CallButton button = m_actualFloor.getCallButton("down");
+        System.out.println(this.color + this.name + " pressed the " + button.getDirection() + " button at floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
+        button.press();
+      }catch (Exception e){
+        System.out.println(e);
+      }
+    }
   }
 
-
+  public void run(){
+    System.out.println(this.color + this.name + " is on floor " + this.m_actualFloor.getNumber() + " and wants to go to floor " + this.destinationFloor + Main.ANSI_RESET);
+    this.goToFloor(this.destinationFloor);
+  }
 }

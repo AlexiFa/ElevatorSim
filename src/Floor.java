@@ -92,4 +92,13 @@ public class Floor {
   // Other methods
   //
 
+  public CallButton getCallButton(String direction) throws Exception{
+    for (CallButton cb : callbuttonsVector){
+      if (cb.getDirection().equals(direction)){
+        return cb;
+      }
+    }
+    throw new Exception("No call button for this direction");
+  }
+
 }

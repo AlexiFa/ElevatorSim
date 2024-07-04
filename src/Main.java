@@ -2,6 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    // ANSI COLORS (for the console output)
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+
     // CONSTANTS
     public static final int[] FLOORS = {-2, -1, 0, 1, 2, 3, 4, 5, 6, 7};
 
@@ -24,16 +32,16 @@ public class Main {
 
     // Initialize users
     void initUsers() {
-        User Client1 = new Client("John");
-        User Client2 = new Client("Jane");
-        User Client3 = new Client("Jack");
-        User Client4 = new Client("Peter");
-        User Mg1 = new MaintenanceGuy("Bob");
-        users.add(Client1);
-        users.add(Client2);
-        users.add(Client3);
-        users.add(Client4);
-        users.add(Mg1);
+        User client1 = new Client("ERIC", floors.get(3), 5, ANSI_RED);
+        User client2 = new Client("JANE", floors.get(0), 3, ANSI_GREEN);
+        User client3 = new Client("BART", floors.get(2), -2, ANSI_YELLOW);
+        User client4 = new Client("Peter", floors.get(1), 7, ANSI_BLUE);
+        User mg1 = new MaintenanceGuy("Bob", floors.get(0), 0, ANSI_PURPLE);
+        users.add(client1);
+        users.add(client2);
+        users.add(client3);
+        users.add(client4);
+        users.add(mg1);
     }
 
     public static void main(String[] args) {
@@ -42,7 +50,24 @@ public class Main {
         main.initFloors();
         main.initUsers();
         elevator = new Elevator();
+        System.out.println("Elevator is at floor " + elevator.getActualFloor() + " and is stopped.");
 
-
+        // set names of threads
+        for (User u : users){
+            u.setName(u.getFirstName());
+        }
+        new Thread(users.get(0), users.get(0).getFirstName()).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        new Thread(users.get(1), users.get(1).getFirstName()).start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        new Thread(users.get(2), users.get(2).getFirstName()).start();
     }
 }

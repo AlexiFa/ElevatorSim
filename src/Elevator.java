@@ -14,9 +14,9 @@ public class Elevator {
   private int actualFloor;
   private List<DestinationButton> buttons = new ArrayList<>();
   /**
-   * 1 up
+   * positive up
    * 0 stop
-   * -1 down   */
+   * negative down   */
   private int isMoving;
   private Door door;
 
@@ -148,6 +148,24 @@ public class Elevator {
    */
   public void changefloor(int nbFloor)
   {
+    isMoving = nbFloor - actualFloor;
+    while (actualFloor != nbFloor)
+    {
+      if (isMoving > 0)
+      {
+          actualFloor++;
+      }
+      else
+      {
+          actualFloor--;
+      }
+      System.out.println("The elevator is at floor " + actualFloor);
+      try {
+          Thread.sleep(1000);
+      } catch (InterruptedException e) {
+          e.printStackTrace();
+      }
+    }
   }
 
 

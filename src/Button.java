@@ -49,6 +49,7 @@ abstract public class Button {
    */
   public void press()
   {
+    isPressed = true;
   }
 
 

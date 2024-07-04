@@ -56,12 +56,20 @@ public class CallButton extends Button {
    * Get the value of m_floor
    * @return the value of m_floor
    */
-  public Floor getFloor () {
+  public Floor getFloor() {
     return m_floor;
   }
 
   //
   // Other methods
   //
+
+  public void press()
+  {
+    super.press();
+    if (Main.elevator.getIsMoving() == 0) {
+      Main.elevator.changefloor(this.m_floor.getNumber());
+    }
+  }
 
 }

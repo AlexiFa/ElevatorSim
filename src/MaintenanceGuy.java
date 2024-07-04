@@ -16,7 +16,11 @@ public class MaintenanceGuy extends User {
   public MaintenanceGuy (String name) {
     super(name);
   }
-  
+
+    public MaintenanceGuy (String name, Floor actualFloor, int destinationFloor, String printColor) {
+        super(name, actualFloor, destinationFloor, printColor);
+    };
+
   //
   // Methods
   //
