@@ -11,6 +11,7 @@ public class User {
   // Fields
   //
 
+  static private int id = 0;
   private int userId;
   private String name;
 
@@ -19,7 +20,14 @@ public class User {
   //
   // Constructors
   //
-  public User () { };
+  public User () {
+    userId = id++;
+  }
+
+  public User (String name) {
+    userId = id++;
+    this.name = name;
+  };
   
   //
   // Methods
@@ -84,7 +92,7 @@ public class User {
 
   /**
    * call all the functions to go to the requested floor
-   * @param        floorNumber
+   * @param floorNumber the number of the floor the user wants to go to
    */
   public void goToFloor(int floorNumber)
   {
