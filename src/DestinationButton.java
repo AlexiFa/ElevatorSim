@@ -1,54 +1,17 @@
-
-import java.util.*;
-
-
-/**
- * Class DestinationButton
- */
 public class DestinationButton extends Button {
+    private int number;
 
-  //
-  // Fields
-  //
+    public DestinationButton(int number) {
+        this.number = number;
+    }
 
-  private int number;
-  private Elevator elevator;
-  
-  //
-  // Constructors
-  //
-  public DestinationButton (int nb, Elevator e) {
-    number = nb;
-    elevator = e;
-  };
-  
-  //
-  // Methods
-  //
+    public int getNumber() {
+        return number;
+    }
 
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of number
-   * @param newVar the new value of number
-   */
-  public void setNumber (int newVar) {
-    number = newVar;
-  }
-
-  /**
-   * Get the value of number
-   * @return the value of number
-   */
-  public int getNumber () {
-    return number;
-  }
-
-  //
-  // Other methods
-  //
-
+    @Override
+    public void press() {
+        super.press();
+        System.out.println("Destination button for floor " + number + " pressed.");
+    }
 }

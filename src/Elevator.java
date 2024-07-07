@@ -1,175 +1,59 @@
-
 import java.util.*;
 
-
-/**
- * Class Elevator
- */
 public class Elevator {
+    private Floor actualFloor;
+    private Door door;
+    private int isMoving = 0;
+    private Queue<Integer> upRequests = new PriorityQueue<>();
+    private Queue<Integer> downRequests = new PriorityQueue<>(Collections.reverseOrder());
 
-  //
-  // Fields
-  //
-
-  private int actualFloor;
-  private List<DestinationButton> buttons = new ArrayList<>();
-  /**
-   * positive up
-   * 0 stop
-   * negative down   */
-  private int isMoving;
-  private Door door;
-
-  private final Vector<Floor> floorsVector = new Vector<>();
-  
-  //
-  // Constructors
-  //
-  public Elevator () {
-    isMoving = 0;
-    actualFloor = 0;
-    door = new Door();
-    floorsVector.addAll(Main.floors);
-    for (Floor f: floorsVector){
-      DestinationButton button = new DestinationButton(f.getNumber(), this);
-      buttons.add(button);
+    public Elevator(Floor actualFloor, Door door) {
+        this.actualFloor = actualFloor;
+        this.door = door;
     }
-  };
-  
-  //
-  // Methods
-  //
 
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of actualFloor
-   * @param newVar the new value of actualFloor
-   */
-  public void setActualFloor (int newVar) {
-    actualFloor = newVar;
-  }
-
-  /**
-   * Get the value of actualFloor
-   * @return the value of actualFloor
-   */
-  public int getActualFloor () {
-    return actualFloor;
-  }
-
-  /**
-   * Set the value of buttons
-   * @param newVar the new value of buttons
-   */
-  public void setButtons (List<DestinationButton> newVar) {
-    buttons = newVar;
-  }
-
-  /**
-   * Get the value of buttons
-   * @return the value of buttons
-   */
-  public List<DestinationButton> getButtons () {
-    return buttons;
-  }
-
-  /**
-   * Set the value of isMoving
-   * 1 up
-   * 0 stop
-   * -1 down
-   * @param newVar the new value of isMoving
-   */
-  public void setIsMoving (int newVar) {
-    isMoving = newVar;
-  }
-
-  /**
-   * Get the value of isMoving
-   * 1 up
-   * 0 stop
-   * -1 down
-   * @return the value of isMoving
-   */
-  public int getIsMoving () {
-    return isMoving;
-  }
-
-  /**
-   * Set the value of door
-   * @param newVar the new value of door
-   */
-  public void setDoor (Door newVar) {
-    door = newVar;
-  }
-
-  /**
-   * Get the value of door
-   * @return the value of door
-   */
-  public Door getDoor () {
-    return door;
-  }
-
-  /**
-   * Add a Floors object to the floorsVector List
-   */
-  public void addFloors (Floor new_object) {
-    floorsVector.add(new_object);
-  }
-
-  /**
-   * Remove a Floors object from floorsVector List
-   */
-  public void removeFloors (Floor new_object)
-  {
-    floorsVector.remove(new_object);
-  }
-
-  /**
-   * Get the List of Floors objects held by floorsVector
-   * @return List of Floors objects held by floorsVector
-   */
-  public List getFloorsList () {
-    return (List) floorsVector;
-  }
-
-
-  //
-  // Other methods
-  //
-
-  /**
-   * @param        nbFloor
-   */
-  public void changefloor(int nbFloor)
-  {
-    isMoving = nbFloor - actualFloor;
-    while (actualFloor != nbFloor)
-    {
-      if (isMoving > 0)
-      {
-          actualFloor++;
-      }
-      else
-      {
-          actualFloor--;
-      }
-      System.out.println("The elevator is at floor " + actualFloor);
-      try {
-          Thread.sleep(1000);
-      } catch (InterruptedException e) {
-          e.printStackTrace();
-      }
+    public int getIsMoving() {
+        return isMoving;
     }
-    System.out.println("The elevator stops at floor " + actualFloor);
-    this.door.open();
-    isMoving = 0;
-  }
 
+    public void requestFloor(int floorNumber, String direction) {
+        if (direction.equals("up")) {
+            upRequests.add(floorNumber);
+        } else {
+            downRequests.add(floorNumber);
+        }
+        processNextRequest();
+    }
 
+    private void processNextRequest() {
+        if (isMoving == 0) {
+            Integer nextFloor = null;
+            if (!upRequests.isEmpty()) {
+                nextFloor = upRequests.poll();
+            } else if (!downRequests.isEmpty()) {
+                nextFloor = downRequests.poll();
+            }
+
+            if (nextFloor != null) {
+                changefloor(nextFloor);
+            }
+        }
+    }
+
+    public void changefloor(int nbFloor) {
+        isMoving = 1;
+        System.out.println("Elevator is moving from floor " + actualFloor.getNumber() + " to floor " + nbFloor);
+        actualFloor = new Floor(nbFloor); // Simulate changing floor
+        System.out.println("Elevator arrived at floor " + actualFloor.getNumber());
+        door.open();
+        // Simulate door open and close time
+        try {
+            Thread.sleep(1000); // Wait for 1 second to simulate door operation
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        door.close();
+        isMoving = 0;
+        processNextRequest();
+    }
 }

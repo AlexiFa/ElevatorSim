@@ -1,141 +1,46 @@
-/**
- * Class User
- */
-public class User extends Thread{
+public abstract class User implements Runnable {
+  protected int userId;
+  protected String name;
+  protected String color;
+  protected Floor m_actualFloor;
+  protected int destinationFloor;
 
-  private String color;
+  public User(int userId, String name, String color, Floor actualFloor, int destinationFloor) {
+      this.userId = userId;
+      this.name = name;
+      this.color = color;
+      this.m_actualFloor = actualFloor;
+      this.destinationFloor = destinationFloor;
+  }
 
-  //
-  // Fields
-  //
-
-  static private int id = 0;
-  private int userId;
-  private String name;
-  private int destinationFloor;
-  public Floor m_actualFloor;
-  
-  //
-  // Constructors
-  //
-  public User () {
-    userId = id++;
-    for (Floor f : Main.floors){
-      if (f.getNumber() == 0){
-        this.m_actualFloor = f;
+  public void goToFloor(int floorNumber) {
+      if (this.m_actualFloor.getNumber() == floorNumber) {
+          System.out.println(this.color + this.name + " is already on floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
+          return;
+      } else if (this.m_actualFloor.getNumber() < floorNumber) {
+          CallButton button = m_actualFloor.getCallButton("up");
+          System.out.println(this.color + this.name + " pressed the " + button.getDirection() + " button at floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
+          button.press();
+      } else if (this.m_actualFloor.getNumber() > floorNumber) {
+          CallButton button = m_actualFloor.getCallButton("down");
+          System.out.println(this.color + this.name + " pressed the " + button.getDirection() + " button at floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
+          button.press();
       }
-    }
-  }
 
-  public User (String name) {
-    userId = id++;
-    this.name = name;
-    for (Floor f : Main.floors){
-      if (f.getNumber() == 0){
-        this.m_actualFloor = f;
-      }
-    }
-  };
-
-  public User (String name, Floor actualFloor, int destinationFloor, String printColor) {
-    userId = id++;
-    this.name = name;
-    this.destinationFloor = destinationFloor;
-    this.m_actualFloor = actualFloor;
-    this.color = printColor;
-  };
-  
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of userId
-   * @param newVar the new value of userId
-   */
-  public void setUserId (int newVar) {
-    userId = newVar;
-  }
-
-  /**
-   * Get the value of userId
-   * @return the value of userId
-   */
-  public int getUserId () {
-    return userId;
-  }
-
-  /**
-   * Set the value of name
-   * @param newVar the new value of name
-   */
-  public void setFirstName(String newVar) {
-    name = newVar;
-  }
-
-  /**
-   * Get the value of name
-   * @return the value of name
-   */
-  public String getFirstName() {
-    return name;
-  }
-
-  /**
-   * Set the value of m_actualFloor
-   * @param newVar the new value of m_actualFloor
-   */
-  public void setActualFloor (Floor newVar) {
-    m_actualFloor = newVar;
-  }
-
-  /**
-   * Get the value of m_actualFloor
-   * @return the value of m_actualFloor
-   */
-  public Floor getActualFloor () {
-    return m_actualFloor;
-  }
-
-  //
-  // Other methods
-  //
-
-  /**
-   * call all the functions to go to the requested floor
-   * @param floorNumber the number of the floor the user wants to go to
-   */
-  public void goToFloor(int floorNumber)
-  {
-    if (this.m_actualFloor.getNumber() == floorNumber){
-      System.out.println(this.color + this.name + " is already on floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
-      return;
-    }else if (this.m_actualFloor.getNumber() < floorNumber) {
-      try{
-        CallButton button = m_actualFloor.getCallButton("up");
-        System.out.println(this.color + this.name + " pressed the " + button.getDirection() + " button at floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
-        button.press();
-      }catch (Exception e){
-        System.out.println(e);
-      }
-    }else if (this.m_actualFloor.getNumber() > floorNumber){
+      // Simuler le temps d'attente pour l'ascenseur
       try {
-        CallButton button = m_actualFloor.getCallButton("down");
-        System.out.println(this.color + this.name + " pressed the " + button.getDirection() + " button at floor " + this.m_actualFloor.getNumber() + Main.ANSI_RESET);
-        button.press();
-      }catch (Exception e){
-        System.out.println(e);
+          Thread.sleep(1000); // Attendre 1 seconde pour la simulation
+      } catch (InterruptedException e) {
+          e.printStackTrace();
       }
-    }
+
+      Main.elevator.requestFloor(floorNumber, (this.m_actualFloor.getNumber() < floorNumber) ? "up" : "down");
+      this.m_actualFloor = new Floor(floorNumber); // Mise à jour de l'étage actuel après déplacement
   }
 
-  public void run(){
-    System.out.println(this.color + this.name + " is on floor " + this.m_actualFloor.getNumber() + " and wants to go to floor " + this.destinationFloor + Main.ANSI_RESET);
-    this.goToFloor(this.destinationFloor);
+  @Override
+  public void run() {
+      System.out.println(this.color + this.name + " is on floor " + this.m_actualFloor.getNumber() + " and wants to go to floor " + this.destinationFloor + Main.ANSI_RESET);
+      this.goToFloor(this.destinationFloor);
   }
 }

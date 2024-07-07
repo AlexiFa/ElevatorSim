@@ -1,37 +1,11 @@
-
-
-/**
- * Class MaintenanceGuy
- */
 public class MaintenanceGuy extends User {
+    public MaintenanceGuy(int userId, String name, String color, Floor actualFloor, int destinationFloor) {
+        super(userId, name, color, actualFloor, destinationFloor);
+    }
 
-  //
-  // Fields
-  //
-
-  
-  //
-  // Constructors
-  //
-  public MaintenanceGuy (String name) {
-    super(name);
-  }
-
-    public MaintenanceGuy (String name, Floor actualFloor, int destinationFloor, String printColor) {
-        super(name, actualFloor, destinationFloor, printColor);
-    };
-
-  //
-  // Methods
-  //
-
-
-  //
-  // Accessor methods
-  //
-
-  //
-  // Other methods
-  //
-
+    @Override
+    public void run() {
+        System.out.println(this.color + this.name + " is on floor " + this.m_actualFloor.getNumber() + " and wants to go to floor " + this.destinationFloor + Main.ANSI_RESET);
+        this.goToFloor(this.destinationFloor);
+    }
 }
