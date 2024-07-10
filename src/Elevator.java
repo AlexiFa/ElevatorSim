@@ -40,9 +40,32 @@ public class Elevator {
         }
     }
 
+
     public void changefloor(int nbFloor) {
         isMoving = 1;
         System.out.println("Elevator is moving from floor " + actualFloor.getNumber() + " to floor " + nbFloor);
+    
+        int currentFloor = actualFloor.getNumber();
+        while (currentFloor != nbFloor) {
+            currentFloor += (currentFloor < nbFloor) ? 1 : -1;
+            System.out.println("Elevator is moving to floor " + currentFloor);
+    
+            try {
+                // Check if somebody is waiting here and go in the same direction
+                if (upRequests.contains(currentFloor)) {
+                    System.out.println("Elevator is stopping at floor " + currentFloor + " to pick up a client");
+                    upRequests.remove(currentFloor);
+                }
+                if (downRequests.contains(currentFloor)) {
+                    System.out.println("Elevator is stopping at floor " + currentFloor + " to pick up a client");
+                    downRequests.remove(currentFloor);
+                }
+                Thread.sleep(1000); // Wait for 1 second to simulate elevator moving
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    
         actualFloor = new Floor(nbFloor); // Simulate changing floor
         System.out.println("Elevator arrived at floor " + actualFloor.getNumber());
         door.open();
@@ -56,4 +79,6 @@ public class Elevator {
         isMoving = 0;
         processNextRequest();
     }
+    
+    
 }
