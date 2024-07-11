@@ -1,22 +1,23 @@
-public class CallButton extends Button {
-  private String direction;
-  private Floor m_floor;
+public class CallButton extends AbstractButton {
+    private String direction;
+    private Floor floor;
 
-  public CallButton(String dir, Floor floor) {
-      direction = dir;
-      this.m_floor = floor;
-  }
+    public CallButton(String direction, Floor floor) {
+        this.direction = direction;
+        this.floor = floor;
+    }
 
-  public String getDirection() {
-      return direction;
-  }
+    public String getDirection() {
+        return direction;
+    }
 
-  public Floor getFloor() {
-      return m_floor;
-  }
+    public Floor getFloor() {
+        return floor;
+    }
 
-  public void press() {
-      super.press();
-      Main.elevator.requestFloor(this.m_floor.getNumber(), direction);
-  }
+    @Override
+    public void press() {
+        super.press();
+        ElevatorSystem.requestFloor(this.floor.getNumber(), direction);
+    }
 }

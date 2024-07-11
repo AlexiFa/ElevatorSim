@@ -1,4 +1,4 @@
-public class DestinationButton extends Button {
+public class DestinationButton extends AbstractButton {
     private int number;
 
     public DestinationButton(int number) {

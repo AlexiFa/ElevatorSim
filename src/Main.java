@@ -1,55 +1,49 @@
-import java.util.Arrays;
-import java.util.List;
+import java.util.logging.*;
 
 public class Main {
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    
-    public static Elevator elevator;
-    
+
     public static void main(String[] args) {
-        // Initialisation des étages
-        Floor floor1 = new Floor(1);
-        Floor floor2 = new Floor(2);
-        Floor floor3 = new Floor(3);
+        // Configure logger to display logs in the console
+        Logger logger = Logger.getLogger(Main.class.getName());
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.ALL);
+        logger.addHandler(consoleHandler);
+        logger.setLevel(Level.ALL);
         
-        // Initialisation des boutons d'appel
-        CallButton callButton1Up = new CallButton("up", floor1);
-        CallButton callButton2Up = new CallButton("up", floor2);
-        CallButton callButton2Down = new CallButton("down", floor2);
-        CallButton callButton3Down = new CallButton("down", floor3);
-        
-        floor1.setCallButtons(Arrays.asList(callButton1Up));
-        floor2.setCallButtons(Arrays.asList(callButton2Up, callButton2Down));
-        floor3.setCallButtons(Arrays.asList(callButton3Down));
-        
-        // Initialisation de l'ascenseur
-        Door door = new Door();
-        elevator = new Elevator(floor1, door);
-        
-        // Initialisation des utilisateurs
-        List<User> users = Arrays.asList(
-            new Client(1, "Alice", ANSI_RED, floor1, 3),
-            new Client(2, "Bob", ANSI_GREEN, floor2, 1),
-            new MaintenanceGuy(3, "Charlie", ANSI_BLUE, floor3, 2),
-            new Client(4, "David", ANSI_YELLOW, floor1, 2),
-            new Client(5, "Eva", ANSI_CYAN, floor3, 1)
-        );
-        
-        // Lancement des threads utilisateurs
-        for (User user : users) {
-            Thread userThread = new Thread(user);
-            userThread.start();
-            
-            try {
-                userThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        // Create a door for the elevator
+        Door door = new ElevatorDoor();
+
+        // Create floors for the building
+        Floor floor1 = new BuildingFloor(1);
+        Floor floor2 = new BuildingFloor(2);
+        Floor floor3 = new BuildingFloor(3);
+        Floor floor4 = new BuildingFloor(4);
+
+        // Create an elevator starting at the first floor
+        Elevator elevator = new Elevator(floor1, door);
+
+        // Add the elevator to the elevator system
+        ElevatorSystem.addElevator(elevator);
+
+        // Simulate users requesting the elevator
+        User user1 = new Client(1, "Alice", "\u001B[34m", floor1, 3); // Alice on floor 1 wants to go to floor 3
+        User user2 = new Client(2, "Bob", "\u001B[32m", floor2, 1); // Bob on floor 2 wants to go to floor 1
+        User user3 = new Client(3, "Charlie", "\u001B[31m", floor3, 4); // Charlie on floor 3 wants to go to floor 4
+        User user4 = new Client(4, "Diana", "\u001B[35m", floor4, 2); // Diana on floor 4 wants to go to floor 2
+        User user5 = new MaintenanceGuy(5, "Eve", "\u001B[36m", floor1, 4); // Eve on floor 1 wants to go to floor 4
+
+        // Run the users in separate threads to simulate their actions concurrently
+        Thread thread1 = new Thread(user1);
+        Thread thread2 = new Thread(user2);
+        Thread thread3 = new Thread(user3);
+        Thread thread4 = new Thread(user4);
+        Thread thread5 = new Thread(user5);
+
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
+        thread5.start();
     }
 }
